@@ -74,12 +74,13 @@ public class showStaff extends Command {
 
 			sender.sendMessage(OnlineStaff.chatPrefix + ChatColor.GOLD + " -------- END --------");
 		} else if (sender.hasPermission("onlinestaff.show") && strings.length == 1) {
+			
 			if (strings[0].equalsIgnoreCase("hide")|| strings[0].equalsIgnoreCase("h")) {
 				setHidden(sender);
 			} else if (strings[0].equalsIgnoreCase("show")|| strings[0].equalsIgnoreCase("s")) {
 				setShown(sender);
 			} else if (strings[0].equalsIgnoreCase("v") || strings[0].equalsIgnoreCase("vanish")) {
-				if (getPlayerStatus(sender)) {
+				if (!getPlayerStatus(sender)) {//if not hidden
 					//player shown, hide player
 					setHidden(sender);
 				}else{
@@ -93,14 +94,16 @@ public class showStaff extends Command {
 
 	}
 	private static boolean getPlayerStatus(CommandSender sender){
-		//if shown, return true else false
+		//if shown, return false else true
 		try {
 			Statement statement;
 			statement = OnlineStaff.getInstance().con.createStatement();
 			UUID UUID = ((ProxiedPlayer) sender).getUniqueId();
 			String query = "SELECT `is_hidden` FROM OnlineStaff WHERE `uuid`='"+OnlineStaff.getInstance().uuidToDbString(UUID)+"' LIMIT 1";
 			ResultSet rs = statement.executeQuery(query);
+			OnlineStaff.logger(query);
 			while (rs.next()) {
+				OnlineStaff.logger("is_hidden = "+rs.getInt("is_hidden"));
 				if (rs.getInt("is_hidden") == 1) {
 					//player is hidden
 					return true;
