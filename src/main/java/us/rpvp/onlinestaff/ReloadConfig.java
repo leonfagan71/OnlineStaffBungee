@@ -14,6 +14,11 @@ public class ReloadConfig extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] strings) {
+		if (!OnlineStaff.active){
+			sender.sendMessage(ChatColor.RED+"Plugin disabled.");
+			return;
+		}
+		
 		if(sender.hasPermission("onlinestaff.reload")) {
 			if (OnlineStaff.getInstance().checkConnection()){
 				OnlineStaff.getInstance().closeConnection();
@@ -21,15 +26,12 @@ public class ReloadConfig extends Command {
 			OnlineStaff.getInstance().reloadConfig();
 				
 			if(OnlineStaff.config.getBoolean("configured")) {
-				String hostname = OnlineStaff.config.getString("mysql.hostname");
-				String username = OnlineStaff.config.getString("mysql.username");
-				String password = OnlineStaff.config.getString("mysql.password");
-				String database = OnlineStaff.config.getString("mysql.database");
-				Integer port = OnlineStaff.config.getInt("mysql.port");
+				
 				try {
-					OnlineStaff.getInstance().startConnection(hostname, username, password, database, port);
+					OnlineStaff.getInstance().startConnection();
 				} catch(SQLException e) {
 					//e.printStackTrace();
+					OnlineStaff.logger("Failed to run reload command for "+sender.getName() +", "+e.getMessage());
 				}
 			}
 			sender.sendMessage(OnlineStaff.chatPrefix + ChatColor.GOLD + " Configuration reloaded.");
