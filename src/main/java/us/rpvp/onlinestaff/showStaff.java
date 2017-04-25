@@ -101,9 +101,9 @@ public class showStaff extends Command {
 			UUID UUID = ((ProxiedPlayer) sender).getUniqueId();
 			String query = "SELECT `is_hidden` FROM OnlineStaff WHERE `uuid`='"+OnlineStaff.getInstance().uuidToDbString(UUID)+"' LIMIT 1";
 			ResultSet rs = statement.executeQuery(query);
-			OnlineStaff.logger(query);
+			//OnlineStaff.logger(query);
 			while (rs.next()) {
-				OnlineStaff.logger("is_hidden = "+rs.getInt("is_hidden"));
+				//OnlineStaff.logger("is_hidden = "+rs.getInt("is_hidden"));
 				if (rs.getInt("is_hidden") == 1) {
 					//player is hidden
 					return true;

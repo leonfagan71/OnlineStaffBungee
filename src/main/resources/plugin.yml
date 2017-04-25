@@ -1,4 +1,4 @@
-author: [ToniTang, leonfagan71]
+author: ToniTang, leonfagan71
 name: OnlineStaff
 main: us.rpvp.onlinestaff.OnlineStaff
 description: Check whether staff are online and query it to a database available for retrieval. (BungeeCord Version)
